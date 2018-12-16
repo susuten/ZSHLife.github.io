@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="四种绑定默认绑定 默认绑定一般是绑定到 window 上，严格模式下是 undefined 下面这个例子使用了 let  定义变量，属于严格模式，打印出 “undefined”  123456function mfoo () &amp;#123;    let a = 1;    console.log(this.a);&amp;#125;let a = 10;mfoo();    // undefined  下">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-16T12:44:18.584Z">
+<meta property="og:updated_time" content="2018-12-16T12:54:02.308Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="this绑定">
 <meta name="twitter:description" content="四种绑定默认绑定 默认绑定一般是绑定到 window 上，严格模式下是 undefined 下面这个例子使用了 let  定义变量，属于严格模式，打印出 “undefined”  123456function mfoo () &amp;#123;    let a = 1;    console.log(this.a);&amp;#125;let a = 10;mfoo();    // undefined  下">
@@ -101,12 +101,16 @@
 <li>使用call、apply或者bind进行显性绑定</li>
 <li>call 、apply 和 bind 这三者的区别<br>(1) call 从第二个参数开始所有的参数都是原函数的参数<br>(2) apply只接受两个参数，且第二个参数必须是数组，这个数组代表原函数的参数列表<br>(3) bind 只有一个参数，且不会立即执行，知识将一个值绑定到函数的 this 上，并将绑定好的函数返回。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function bfoo () &#123;</span><br><span class="line">    console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let bobj = &#123; a: 10 &#125;;</span><br><span class="line">bfoo = bfoo.bind(bobj);</span><br><span class="line"> </span><br><span class="line">bfoo();    // 10</span><br><span class="line">function xfoo () &#123;</span><br><span class="line">    console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">let xobj = &#123;</span><br><span class="line">    a: 888</span><br><span class="line">&#125;</span><br><span class="line">xfoo.call(xobj);</span><br><span class="line"></span><br><span class="line">xfoo.apply(xobj);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">#### new绑定</span><br><span class="line">- 使用 new 调用函数后，函数会以自己的名字名字命名和创建一个新的对象，并返回</span><br></pre></td></tr></table></figure>
-<p>function nfoo () {<br>    this.a = 10;<br>    console.log(this);<br>}<br>nfoo();  // window<br>console.log(window.a);　　// 10<br>let nobj = new nfoo();　　// nfoo<br>console.log(nobj.a);　　// 10<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 如果原函数返回一个对象类型，那么将无法返回新对象，将失去绑定 this 的新对象</span><br></pre></td></tr></table></figure></p>
-<p>function nnfoo () {<br>    this.a = 10;<br>    return new String(“新对象”);<br>}<br>let nnobj = new nnfoo();<br>console.log(nnobj.a); // undefined<br>console.log(nnobj);   // 新对象<br><code>`</code></p>
-<h3 id="this-绑定的优先级"><a href="#this-绑定的优先级" class="headerlink" title="this 绑定的优先级"></a>this 绑定的优先级</h3><blockquote>
-<p>new 绑定 &gt; 显式绑定 &gt; 隐式绑定 &gt; 默认绑定</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function bfoo () &#123;</span><br><span class="line">    console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let bobj = &#123; a: 10 &#125;;</span><br><span class="line">bfoo = bfoo.bind(bobj);</span><br><span class="line"> </span><br><span class="line">bfoo();    // 10</span><br><span class="line">function xfoo () &#123;</span><br><span class="line">    console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">let xobj = &#123;</span><br><span class="line">    a: 888</span><br><span class="line">&#125;</span><br><span class="line">xfoo.call(xobj);</span><br></pre></td></tr></table></figure>
+<h4 id="new绑定"><a href="#new绑定" class="headerlink" title="new绑定"></a>new绑定</h4><ul>
+<li>使用 new 调用函数后，函数会以自己的名字名字命名和创建一个新的对象，并返回</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function nfoo () &#123;</span><br><span class="line">    this.a = 10;</span><br><span class="line">    console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">nfoo();  // window</span><br><span class="line">console.log(window.a);　　// 10</span><br><span class="line">let nobj = new nfoo();　　// nfoo</span><br><span class="line">console.log(nobj.a);　　// 10</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果原函数返回一个对象类型，那么将无法返回新对象，将失去绑定 this 的新对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function nnfoo () &#123;</span><br><span class="line">    this.a = 10;</span><br><span class="line">    return new String(&quot;新对象&quot;);</span><br><span class="line">&#125;</span><br><span class="line">let nnobj = new nnfoo(); </span><br><span class="line">console.log(nnobj.a); // undefined</span><br><span class="line">console.log(nnobj);   // 新对象</span><br></pre></td></tr></table></figure>
+<h3 id="this-绑定的优先级"><a href="#this-绑定的优先级" class="headerlink" title="this 绑定的优先级"></a>this 绑定的优先级</h3><p>new 绑定 &gt; 显式绑定 &gt; 隐式绑定 &gt; 默认绑定</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li>如果函数被 new 修饰，this 绑定的是新创建的对象，例如 var bar = new foo()；函数 foo 中的 this 就是一个叫 foo 新创建的对象，然后将这个对象赋给 bar，这样的绑定叫做 new 绑定。</li>
 <li>如果函数是使用 call，apply，bind 来调用的，this 绑定的 是 call，apply，bind 中的第一个参数，例如 foo.call( obj )，foo 中的 this 就是 obj，这样的绑定方式叫 显式绑定。</li>
@@ -117,7 +121,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/14/this绑定/" data-id="cjpqvukpf00013otzr94qgvh7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/14/this绑定/" data-id="cjpqvl83i0000v8tzyr4xww6u" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>

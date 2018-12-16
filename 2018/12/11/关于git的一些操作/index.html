@@ -7,18 +7,18 @@
   
   <title>关于git的一些操作 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在master分支下开分支 先更新一下master分支  1git pull  创建并切换该分支  1git checkout -b feature-xxx 在自己的分支下开发 提交到本地仓库  12git add .git commit -m &quot;描述&quot;  推送到远程仓库  1git fetch origin &amp;amp;&amp;amp; git merge origin/master 推测试服 切换到d">
+  <meta name="description" content="在master分支下开分支 先更新一下master分支  1git pull  创建并切换该分支  1git checkout -b feature-xxx 在自己的分支下开发 提交到本地仓库  12git add .git commit -m &quot;描述&quot;  推送到远程仓库  12git fetch origin &amp;amp;&amp;amp; git merge origin/mastergit push">
 <meta name="keywords" content="git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于git的一些操作">
 <meta property="og:url" content="http://yoursite.com/2018/12/11/关于git的一些操作/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="在master分支下开分支 先更新一下master分支  1git pull  创建并切换该分支  1git checkout -b feature-xxx 在自己的分支下开发 提交到本地仓库  12git add .git commit -m &quot;描述&quot;  推送到远程仓库  1git fetch origin &amp;amp;&amp;amp; git merge origin/master 推测试服 切换到d">
+<meta property="og:description" content="在master分支下开分支 先更新一下master分支  1git pull  创建并切换该分支  1git checkout -b feature-xxx 在自己的分支下开发 提交到本地仓库  12git add .git commit -m &quot;描述&quot;  推送到远程仓库  12git fetch origin &amp;amp;&amp;amp; git merge origin/mastergit push">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-16T13:52:40.355Z">
+<meta property="og:updated_time" content="2018-12-16T13:57:49.329Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于git的一些操作">
-<meta name="twitter:description" content="在master分支下开分支 先更新一下master分支  1git pull  创建并切换该分支  1git checkout -b feature-xxx 在自己的分支下开发 提交到本地仓库  12git add .git commit -m &quot;描述&quot;  推送到远程仓库  1git fetch origin &amp;amp;&amp;amp; git merge origin/master 推测试服 切换到d">
+<meta name="twitter:description" content="在master分支下开分支 先更新一下master分支  1git pull  创建并切换该分支  1git checkout -b feature-xxx 在自己的分支下开发 提交到本地仓库  12git add .git commit -m &quot;描述&quot;  推送到远程仓库  12git fetch origin &amp;amp;&amp;amp; git merge origin/mastergit push">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -102,7 +102,7 @@
 <ol start="2">
 <li>推送到远程仓库</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin &amp;&amp; git merge origin/master</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin &amp;&amp; git merge origin/master</span><br><span class="line">git push origin feature-xxx</span><br></pre></td></tr></table></figure>
 <h3 id="推测试服"><a href="#推测试服" class="headerlink" title="推测试服"></a>推测试服</h3><ol>
 <li>切换到develop分支</li>
 </ol>
@@ -112,7 +112,7 @@
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
 <ol start="3">
-<li>在develop分支下合并（public文件夹下的冲突就编译一下，src文件夹下的冲突就手动解决，一般不是自己改的冲突选择传入）</li>
+<li>在develop分支下合并feature-xxx分支（public文件夹下的冲突就编译一下，src文件夹下的冲突就手动解决，一般不是自己改的冲突选择传入）</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git merge origin feature-xxx</span><br><span class="line">```         </span><br><span class="line">  </span><br><span class="line">4. 推送develop分支</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">git push develop</span><br></pre></td></tr></table></figure>
 <h3 id="发合并请求"><a href="#发合并请求" class="headerlink" title="发合并请求"></a>发合并请求</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git status  <span class="comment"># 查看当前分支的状态，如果存在文件未提交则先提交，再切换分支</span></span><br><span class="line">git checkout feature-xxx </span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"描述"</span></span><br><span class="line">git fetch origin </span><br><span class="line">git merge origin/master</span><br><span class="line">node ./build.js feature-xxx -p   <span class="comment"># 生产编译</span></span><br><span class="line">git push origin feature-xxx</span><br></pre></td></tr></table></figure>
@@ -120,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/11/关于git的一些操作/" data-id="cjpqyaoe000041wtzlce50rmq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/11/关于git的一些操作/" data-id="cjpqyh5w40002kctzaojc53gs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>

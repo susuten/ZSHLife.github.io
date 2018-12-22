@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="关于首页视频 首页视频是嵌入iframe 的，所以一般视频为以下这种格式  1https://v.qq.com/txp/iframe/player.html?vid=q0534aoz47q  如何得到  1在网页中打开之后分享那里会有链接，复制该链接并截取有 ifrme 的链接  视频链接需要发给后端配置  关于 git 的操作 开发阶段 (主要是在自己的分支下操作)  12345678(1) g">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-22T06:14:27.160Z">
+<meta property="og:updated_time" content="2018-12-22T06:25:46.781Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目笔记">
 <meta name="twitter:description" content="关于首页视频 首页视频是嵌入iframe 的，所以一般视频为以下这种格式  1https://v.qq.com/txp/iframe/player.html?vid=q0534aoz47q  如何得到  1在网页中打开之后分享那里会有链接，复制该链接并截取有 ifrme 的链接  视频链接需要发给后端配置  关于 git 的操作 开发阶段 (主要是在自己的分支下操作)  12345678(1) g">
@@ -110,43 +110,20 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(1) git checkout feature-xxx</span><br><span class="line">(2) node ./build.js xxx -p (生产编译)</span><br><span class="line">(3) git add .</span><br><span class="line">(4) git commit -m &apos;描述&apos;</span><br><span class="line">(5) git fetch origin</span><br><span class="line">(6) git merge origin/master</span><br><span class="line">(7) git push origin feature-xxx (把自己的分支推上去之后，查看有没有问题，没问题就发合并请求pr，然后到群里@对应的人进行review)</span><br></pre></td></tr></table></figure>
 <ol start="4">
-<li><p>删除分支</p>
-<blockquote>
-<p>上线之后无用的分支需要删除掉，不然分支会越来越多，难以管理</p>
+<li><p>删除分支<br>上线之后无用的分支需要删除掉，不然分支会越来越多，难以管理</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(1) git push origin --delete feature-xxx  删除远程分支</span><br><span class="line">(2) git branch -d feature-xxx 删除本地分支</span><br></pre></td></tr></table></figure>
-</blockquote>
 </li>
-<li><p>关于切分支</p>
-<blockquote>
-<p>在切分支之前注意先 <code>git status</code> 一下查看当前分支是否是干净的，如果是则可以进行切分支，如果不是则需要先提交</p>
-</blockquote>
+<li><p>关于切分支<br>在切分支之前注意先 <code>git status</code> 一下查看当前分支是否是干净的，如果是则可以进行切分支，如果不是则需要先提交</p>
 </li>
 </ol>
 <h3 id="关于一些坑"><a href="#关于一些坑" class="headerlink" title="关于一些坑"></a>关于一些坑</h3><ol>
-<li><p>class 和 className </p>
-<blockquote>
-<p>如果发现样式没有作用的时候，先检查一下是不是 className 写成了 class 或者 class 写成了 className</p>
-</blockquote>
+<li><p>class 和 className<br>如果发现样式没有作用的时候，先检查一下是不是 className 写成了 class 或者 class 写成了 className</p>
 </li>
-<li><p>关于日期组件的繁简体</p>
-<blockquote>
-<p>如果发现日期本应是简体的但是却为繁体或者本应是繁体的但却是简体，这时候检查一下是否在 reducer 文件夹下的 index.js 中定义了 lang</p>
-</blockquote>
+<li><p>关于日期组件的繁简体<br>如果发现日期本应是简体的但是却为繁体或者本应是繁体的但却是简体，这时候检查一下是否在 reducer 文件夹下的 index.js 中定义了 lang</p>
 </li>
-<li><p>评论组件四颗星问题</p>
-<blockquote>
-<p>最近做的两个测算<code>星座占卜</code>和<code>司徒法正</code>都出现了这个问题，在结果页中引入评论公共组件，但是星星的个数却只有四颗，在排查之后发现是结果页中之前的评论的样式覆盖了公共组件的样式，导致这种结果。</p>
-</blockquote>
+<li><p>评论组件四颗星问题<br>最近做的两个测算<code>星座占卜</code>和<code>司徒法正</code>都出现了这个问题，在结果页中引入评论公共组件，但是星星的个数却只有四颗，在排查之后发现是结果页中之前的评论的样式覆盖了公共组件的样式，导致这种结果。<br>解决办法：在 result.less中去掉其中引入的一些不再用的样式</p>
 </li>
-</ol>
-<blockquote>
-<p>解决办法：在 result.less中去掉其中引入的一些不再用的样式</p>
-</blockquote>
-<ol start="4">
-<li><p>兼容性问题</p>
-<blockquote>
-<p>在支付页，用三星测试，点击微信支付调起微信支付，不支付，点击返回，回到支付页，然后再点返回，没有挽留弹框的出现。本人用荣耀测试，是有弹框的，目前还没有解决方案。</p>
-</blockquote>
+<li><p>兼容性问题<br>在支付页，用三星测试，点击微信支付调起微信支付，不支付，点击返回，回到支付页，然后再点返回，没有挽留弹框的出现。本人用荣耀测试，是有弹框的，目前还没有解决方案。</p>
 </li>
 <li><p>一些bug修复完之后，在本地运行是没有问题的，但是推上测试服之后，在chrome浏览器中打开测试服的链接，发现bug依旧存在。怀疑是缓存的作用，于是就清了session storage、local storage和cookie，但是依旧没有作用，但是用360浏览器和手机浏览器中打开测试服链接，发现bug已经修复了。有毒……</p>
 </li>
@@ -154,23 +131,17 @@
 </li>
 </ol>
 <h3 id="关于沟通"><a href="#关于沟通" class="headerlink" title="关于沟通"></a>关于沟通</h3><ol>
-<li>与产品<blockquote>
-<p>有些需求不太明确，在这个时候先找产品确认好需求之后再做。不然，可能导致的结果是重新做，这很费时间。</p>
-</blockquote>
-</li>
-<li>与后端<blockquote>
-<p>经常遇到的情况就是更换banner图和文案，这个时候需要把要更改的内容整理好，然后发给后端更改。不要等到做完了再发给后端，这样子比较影响进度，因为后端不一定能立即修改。</p>
-</blockquote>
-</li>
+<li>与产品<br>有些需求不太明确，在这个时候先找产品确认好需求之后再做。不然，可能导致的结果是重新做，这很费时间。</li>
+<li>与后端<br>经常遇到的情况就是更换banner图和文案，这个时候需要把要更改的内容整理好，然后发给后端更改。不要等到做完了再发给后端，这样子比较影响进度，因为后端不一定能立即修改。</li>
 </ol>
-<h3 id="take-care"><a href="#take-care" class="headerlink" title="take care"></a>take care</h3><blockquote>
-<p>涉及到后端的，发测需要双方都准备好了，才可以发测</p>
-</blockquote>
+<h3 id="take-care"><a href="#take-care" class="headerlink" title="take care"></a>take care</h3><ul>
+<li>涉及到后端的，发测需要双方都准备好了，才可以发测</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/22/项目笔记/" data-id="cjpz2s24b0006sstz3fng36of" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/22/项目笔记/" data-id="cjpz30bcp000414tzvvisumi6" class="article-share-link">Share</a>
       
       
     </footer>

@@ -62,6 +62,359 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mongodb基础学习笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/15/mongodb基础学习笔记/" class="article-date">
+  <time datetime="2019-01-15T14:26:57.000Z" itemprop="datePublished">2019-01-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/mongodb基础学习笔记/">mongodb 基础学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>是一个面向文档存储的数据库，操作起来比较简单和容易</li>
+<li>可以在 MongoDB 记录中设置任何属性的索引值</li>
+<li>可以通过本地或者网络创建数据镜像</li>
+</ul>
+<h3 id="一些术语"><a href="#一些术语" class="headerlink" title="一些术语"></a>一些术语</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">SQL术语</th>
+<th style="text-align:center">MongoDB术语</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">database</td>
+<td style="text-align:center">database</td>
+<td style="text-align:center">数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">table</td>
+<td style="text-align:center">collection</td>
+<td style="text-align:center">数据库表/集合</td>
+</tr>
+<tr>
+<td style="text-align:center">row</td>
+<td style="text-align:center">document</td>
+<td style="text-align:center">数据记录行/文档</td>
+</tr>
+<tr>
+<td style="text-align:center">column</td>
+<td style="text-align:center">field</td>
+<td style="text-align:center">数据字段/域</td>
+</tr>
+<tr>
+<td style="text-align:center">index</td>
+<td style="text-align:center">index</td>
+<td style="text-align:center">索引</td>
+</tr>
+<tr>
+<td style="text-align:center">table joins</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">表连接，MongoDB不支持</td>
+</tr>
+<tr>
+<td style="text-align:center">primary key</td>
+<td style="text-align:center">primary key</td>
+<td style="text-align:center">主键，MongoDB自动将_id字段设置为主键</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><ul>
+<li>一个 MongoDB 可以建立多个数据库</li>
+<li>“show dbs”可以显示所有数据的列表</li>
+<li>数据库不能是空字符串、不得含有空格、空字符</li>
+<li>应全部小写</li>
+<li>最多64字节</li>
+<li>特殊数据库：admin、local、config</li>
+</ul>
+<h3 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h3><ul>
+<li>文档是一组键值对（BSON）</li>
+<li>take care:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(1) 文档中的键值对是有序的</span><br><span class="line">(2) 文档中的值不仅可以是字符串，也可以是其它几种数据类型</span><br><span class="line">(3) MongDB 的文档不能有重复的键</span><br><span class="line">(4) MongoDB 区分类型和大小写</span><br><span class="line">(5) 文档的键是字符串，除了少数例外的情况，键可以使用任意UTF-8字符</span><br></pre></td></tr></table></figure>
+<ul>
+<li>文档键命名规范</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）不能含有空字符，这个字符用来表示键的结尾</span><br><span class="line">（2）. 和 $ 有特别的意义，只有在特定环境下才能使用</span><br><span class="line">（3）以下划线开头的键是保留的</span><br></pre></td></tr></table></figure>
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><ul>
+<li>集合就是MongoDB的文档组</li>
+<li>集合存在于数据库，没有固定的结构</li>
+</ul>
+<h3 id="objectId"><a href="#objectId" class="headerlink" title="objectId"></a>objectId</h3><ul>
+<li>类似唯一地主键，可以很快去生成和排序，包含了12bytes， 4时间戳–3机器标识码–2PID–3随机数</li>
+<li>可以通过getTimestamp函数来获取到文档的创建时间</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 取文档的创建时间：</span></span><br><span class="line">&gt; var newObject = ObjectId()</span><br><span class="line">&gt; newObject.getTimestamp()</span><br><span class="line">ISODate(<span class="string">"2017-11-25T07:21:10Z"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ObjectId转为字符串：</span></span><br><span class="line">&gt; newObject.str</span><br><span class="line">5a1919e63df83ce79df8b38f</span><br></pre></td></tr></table></figure>
+<h2 id="相关操作"><a href="#相关操作" class="headerlink" title="相关操作"></a>相关操作</h2><h3 id="MongoDB创建数据库"><a href="#MongoDB创建数据库" class="headerlink" title="MongoDB创建数据库"></a>MongoDB创建数据库</h3><ol>
+<li>创建数据库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; use mydatabase</span><br><span class="line">switched to db runoob</span><br><span class="line">&gt; db</span><br><span class="line">mydatabase</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>查看数据库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; show dbs</span><br><span class="line">&gt; db</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB删除数据库"><a href="#MongoDB删除数据库" class="headerlink" title="MongoDB删除数据库"></a>MongoDB删除数据库</h3><ol>
+<li>db.dropDatabse()</li>
+<li>db.collecion.drop() 删除集合，其中collection是集合的名字</li>
+</ol>
+<h3 id="MongoDB创建集合"><a href="#MongoDB创建集合" class="headerlink" title="MongoDB创建集合"></a>MongoDB创建集合</h3><ol>
+<li>db.createCollection(name, options)<br><code>name</code> 要创建的集合名称<br><code>options</code> 指定有关内存大小以及索引的选项</li>
+<li>在MongoDB中，不需要创建集合，当需要插入文档时，MongoDB会自动创建集合</li>
+</ol>
+<h3 id="MogonDB删除集合"><a href="#MogonDB删除集合" class="headerlink" title="MogonDB删除集合"></a>MogonDB删除集合</h3><ol>
+<li>db.collection.drop()<br>返回值：删除成功返回true，否则返回false</li>
+<li>show collcetions 查看已存在的集合</li>
+</ol>
+<h3 id="MongoDB插入文档"><a href="#MongoDB插入文档" class="headerlink" title="MongoDB插入文档"></a>MongoDB插入文档</h3><ol>
+<li>使用insert()或save()方法向集合中插入文档</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.COLLECTION_NAME.insert(document).insert(document)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.col.insert(&#123;title: <span class="string">'MongoDB 教程'</span>,</span><br><span class="line">description: <span class="string">'MongoDB 是一个 Nosql 数据库'</span>,</span><br><span class="line">by: <span class="string">'菜鸟教程'</span>,</span><br><span class="line">url: <span class="string">'http://www.runoob.com'</span>,</span><br><span class="line">tags: [<span class="string">'mongodb'</span>, <span class="string">'database'</span>, <span class="string">'NoSQL'</span>],</span><br><span class="line">likes: 100&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB更新文档"><a href="#MongoDB更新文档" class="headerlink" title="MongoDB更新文档"></a>MongoDB更新文档</h3><ol>
+<li>update()用于更新已经存在的文档</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">db.collection.update(</span><br><span class="line">&lt;query&gt;,</span><br><span class="line">&lt;update&gt;,</span><br><span class="line">&#123;</span><br><span class="line">upsert: &lt;boolean&gt;,</span><br><span class="line">multi: &lt;boolean&gt;,</span><br><span class="line">writeConcern: &lt;document&gt;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;db.col.update(&#123;<span class="string">'title'</span>:<span class="string">'MongoDB 教程'</span>&#125;,&#123;<span class="variable">$set</span>:&#123;<span class="string">'title'</span>:<span class="string">'MongoDB'</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>save() 方法通过传入的文档来替换已有文档</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.collection.save(</span><br><span class="line">&lt;document&gt;,</span><br><span class="line">&#123;</span><br><span class="line">writeConcern: &lt;document&gt;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.col.save(&#123;</span><br><span class="line"><span class="string">"_id"</span> : ObjectId(<span class="string">"56064f89ade2f21f36b03136"</span>),</span><br><span class="line"><span class="string">"title"</span> : <span class="string">"MongoDB"</span>,</span><br><span class="line"><span class="string">"description"</span> : <span class="string">"MongoDB 是一个 Nosql 数据库"</span>,</span><br><span class="line"><span class="string">"by"</span> : <span class="string">"Runoob"</span>,</span><br><span class="line"><span class="string">"url"</span> : <span class="string">"http://www.runoob.com"</span>,</span><br><span class="line"><span class="string">"tags"</span> : [</span><br><span class="line"><span class="string">"mongodb"</span>,</span><br><span class="line"><span class="string">"NoSQL"</span></span><br><span class="line">],</span><br><span class="line"><span class="string">"likes"</span> : 110&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB删除文档"><a href="#MongoDB删除文档" class="headerlink" title="MongoDB删除文档"></a>MongoDB删除文档</h3><ol>
+<li>remove()函数是用来移除集合中的数据</li>
+<li>语法：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">db.collection.remove(</span><br><span class="line">&lt;query&gt;,</span><br><span class="line">&#123;</span><br><span class="line">justOne: &lt;boolean&gt;,</span><br><span class="line">writeConcern: &lt;document&gt;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB查询文档"><a href="#MongoDB查询文档" class="headerlink" title="MongoDB查询文档"></a>MongoDB查询文档</h3><blockquote>
+<p>db.collection.find() 以非结构化的方式来显示所有文档<br>db.collection.find().pretty() 以易读的方式来读取数据<br>db.collection.findOne() 只返回一个文档</p>
+</blockquote>
+<ol>
+<li>MongoDB与RDBMS where语句比较</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">操作</th>
+<th style="text-align:center">格式</th>
+<th style="text-align:center">范例</th>
+<th style="text-align:center">RDBMS中的类似语句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">等于</td>
+<td style="text-align:center">{<code>&lt;key&gt;</code>:<code>&lt;value&gt;</code>}</td>
+<td style="text-align:center">db.col.find({“by”:”菜鸟教程”}).pretty()</td>
+<td style="text-align:center">where by = ‘菜鸟教程’</td>
+</tr>
+<tr>
+<td style="text-align:center">小于</td>
+<td style="text-align:center">{<code>&lt;key&gt;</code>:{$lt:<code>&lt;value&gt;</code>}}</td>
+<td style="text-align:center">db.col.find({“likes”:{$lt:50}}).pretty()</td>
+<td style="text-align:center">where likes &lt; 50</td>
+</tr>
+<tr>
+<td style="text-align:center">小于或等于</td>
+<td style="text-align:center">{<code>&lt;key&gt;</code>:{$lte:<code>&lt;value&gt;</code>}}</td>
+<td style="text-align:center">db.col.find({“likes”:{$lte:50}}).pretty()</td>
+<td style="text-align:center">where likes &lt;= 50</td>
+</tr>
+<tr>
+<td style="text-align:center">大于</td>
+<td style="text-align:center">{<code>&lt;key&gt;</code>:{$gt:<code>&lt;value&gt;</code>}}</td>
+<td style="text-align:center">db.col.find({“likes”:{$gt:50}}).pretty()</td>
+<td style="text-align:center">where likes &gt; 50</td>
+</tr>
+<tr>
+<td style="text-align:center">大于或等于</td>
+<td style="text-align:center">{<code>&lt;key&gt;</code>:{$gte:<code>&lt;value&gt;</code>}}</td>
+<td style="text-align:center">db.col.find({“likes”:{$gte:50}}).pretty()</td>
+<td style="text-align:center">where likes &gt;= 50</td>
+</tr>
+<tr>
+<td style="text-align:center">不等于</td>
+<td style="text-align:center">{<code>&lt;key&gt;</code>:{$ne:<code>&lt;value&gt;</code>}}</td>
+<td style="text-align:center">db.col.find({“likes”:{$ne:50}}).pretty()</td>
+<td style="text-align:center">where likes != 50</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>MongoDB AND条件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.col.find(&#123;key1:value1, key2:value2&#125;).pretty()</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>MongoDB OR条件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.col.find(&#123;<span class="variable">$or</span>:[&#123;<span class="string">"by"</span>:<span class="string">"菜鸟教程"</span>&#125;,&#123;<span class="string">"title"</span>: <span class="string">"MongoDB 教程"</span>&#125;]&#125;).pretty()</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>AND和OR联合使用</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.col.find(&#123;<span class="string">"likes"</span>: &#123;<span class="variable">$gt</span>:50&#125;, <span class="variable">$or</span>: [&#123;<span class="string">"by"</span>: <span class="string">"菜鸟教程"</span>&#125;,&#123;<span class="string">"title"</span>: <span class="string">"MongoDB 教程"</span>&#125;]&#125;).pretty()</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB条件操作符"><a href="#MongoDB条件操作符" class="headerlink" title="MongoDB条件操作符"></a>MongoDB条件操作符</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$gt</td>
+<td style="text-align:center">大于</td>
+</tr>
+<tr>
+<td style="text-align:center">$lt</td>
+<td style="text-align:center">小于</td>
+</tr>
+<tr>
+<td style="text-align:center">$gte</td>
+<td style="text-align:center">大于等于</td>
+</tr>
+<tr>
+<td style="text-align:center">$lte</td>
+<td style="text-align:center">小于等于</td>
+</tr>
+</tbody>
+</table>
+<h3 id="MongoDB-Limit与Skip方法"><a href="#MongoDB-Limit与Skip方法" class="headerlink" title="MongoDB Limit与Skip方法"></a>MongoDB Limit与Skip方法</h3><ol>
+<li>limit() 在MongoDB中读取指定数量的数据记录</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.COLLECTION_NAME.find().<span class="built_in">limit</span>(NUMBER)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>skip() 来跳过指定数量的数据，接受一个数字参数作为跳过的记录条数，skip()方法默认参数为0</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.COLLECTION_NAME.find().<span class="built_in">limit</span>(NUMBER).skip(NUMBER)</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB-排序"><a href="#MongoDB-排序" class="headerlink" title="MongoDB 排序"></a>MongoDB 排序</h3><p>1.sort () 方法可以通过指定参数指定排序的字段， 并使用 <code>1</code> 和 <code>-1</code> 来指定排序的方式，其中 1 为<code>升序</code>排序，-1 为<code>降序</code>排序</p>
+<p>2.语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.COLLECTION_NAME.find().sort(&#123;KEY:1&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB-索引"><a href="#MongoDB-索引" class="headerlink" title="MongoDB 索引"></a>MongoDB 索引</h3><ol>
+<li>索引的作用：能够极大的提高查询的效率</li>
+<li>创建索引：createIndex()</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.collection.createIndex(keys, options)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>说明：key值为要创建的索引字段，1为按升序创建索引，-1为按降序创建索引</p>
+</blockquote>
+<h3 id="MongoDB-聚合"><a href="#MongoDB-聚合" class="headerlink" title="MongoDB 聚合"></a>MongoDB 聚合</h3><ol>
+<li>MongoDB中聚合（aggregate）主要用于处理数据（诸如统计平均值，求和），并返回计算后的数据结果。</li>
+<li>语法：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/15/mongodb基础学习笔记/" data-id="cjqxuwvjf0007rotzt148wmab" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/15/hello-world/" class="article-date">
+  <time datetime="2019-01-15T14:25:29.547Z" itemprop="datePublished">2019-01-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/15/hello-world/" data-id="cjqxuwvej0000rotzmm22m4sc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="w-react项目搭建" class="article article-type-w" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/01/react项目搭建/" class="article-date">
+  <time datetime="2019-01-01T04:19:25.000Z" itemprop="datePublished">2019-01-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/01/react项目搭建/">react项目搭建</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="项目创建"><a href="#项目创建" class="headerlink" title="项目创建"></a>项目创建</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir react-dom</span><br><span class="line"><span class="built_in">cd</span> react-dom</span><br><span class="line">npm init</span><br></pre></td></tr></table></figure>
+<h3 id="安装react、react-dom、weback"><a href="#安装react、react-dom、weback" class="headerlink" title="安装react、react-dom、weback"></a>安装react、react-dom、weback</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install react react-dom --save</span><br><span class="line">npm install webpack --save-dev</span><br></pre></td></tr></table></figure>
+<h3 id="项目目录和源码"><a href="#项目目录和源码" class="headerlink" title="项目目录和源码"></a>项目目录和源码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--project</span><br><span class="line">  |--dist(项目打包输出目录)</span><br><span class="line">    |--bundle.js(由webpack打包生成)</span><br><span class="line">    |--index.html</span><br><span class="line">  |--src</span><br><span class="line">    |--index.js</span><br><span class="line">  |--webpack</span><br><span class="line">    |--webpack.config.js</span><br><span class="line">  |--package.json</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/01/react项目搭建/" data-id="cjqxuwvf80002rotz8pvcsxh7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-项目笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/22/项目笔记/" class="article-date">
@@ -119,7 +472,7 @@
 </li>
 <li><p>关于日期组件的繁简体<br>如果发现日期本应是简体的但是却为繁体或者本应是繁体的但却是简体，这时候检查一下是否在 reducer 文件夹下的 index.js 中定义了 lang</p>
 </li>
-<li><p>评论组件四颗星问题<br>最近做的两个测算<code>星座占卜</code>和<code>司徒法正</code>都出现了这个问题，在结果页中引入评论公共组件，但是星星的个数却只有四颗，在排查之后发现是结果页中之前的评论的样式覆盖了公共组件的样式，导致这种结果。<br>解决办法：在 result.less中去掉其中引入的一些不再用的样式</p>
+<li><p>评论组件四颗星问题<br>在结果页中引入评论公共组件，但是星星的个数却只有四颗，在排查之后发现是结果页中之前的评论的样式覆盖了公共组件的样式，导致这种结果。<br>解决办法：在 result.less中去掉其中引入的一些不再用的样式</p>
 </li>
 <li><p>兼容性问题<br>在支付页，用三星测试，点击微信支付调起微信支付，不支付，点击返回，回到支付页，然后再点返回，没有挽留弹框的出现。本人用荣耀测试，是有弹框的，目前还没有解决方案。</p>
 </li>
@@ -139,7 +492,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/22/项目笔记/" data-id="cjpz3397f0001agtzgfkl2s83" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/22/项目笔记/" data-id="cjqxuwvjm0008rotzlunsauf6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -205,7 +558,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/14/this绑定/" data-id="cjpz3396y0000agtzvmzwua8d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/14/this绑定/" data-id="cjqxuwvf00001rotzsvbmkf5k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
@@ -272,7 +625,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/12/关于git的一些操作/" data-id="cjpz3397r0003agtz0bek3f2n" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/12/关于git的一些操作/" data-id="cjqxuwvjs0009rotzylz7cakk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
@@ -297,7 +650,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li></ul>
     </div>
   </div>
 
@@ -307,7 +660,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
+      <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/react/" style="font-size: 10px;">react</a>
     </div>
   </div>
 
@@ -316,7 +669,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
     </div>
   </div>
 
@@ -329,15 +682,23 @@
       <ul>
         
           <li>
+            <a href="/2019/01/15/mongodb基础学习笔记/">mongodb 基础学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/01/react项目搭建/">react项目搭建</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/22/项目笔记/">项目笔记</a>
           </li>
         
           <li>
             <a href="/2018/12/14/this绑定/">this绑定</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/12/关于git的一些操作/">关于git的一些操作</a>
           </li>
         
       </ul>
@@ -352,7 +713,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

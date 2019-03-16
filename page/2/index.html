@@ -5,11 +5,11 @@
   
 
   
-  <title>Tag: react | Hexo</title>
+  <title>susuten | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/react/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
@@ -58,38 +58,79 @@
       <div class="outer">
         <section id="main">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-w">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/01/01/react项目搭建/" class="archive-article-date">
-  <time datetime="2019-01-01T04:19:25.000Z" itemprop="datePublished">Jan 1</time>
+    <article id="w-关于git的一些操作" class="article article-type-w" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/12/关于git的一些操作/" class="article-date">
+  <time datetime="2018-12-12T13:33:25.000Z" itemprop="datePublished">2018-12-12</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/01/01/react项目搭建/">react项目搭建</a>
+      <a class="article-title" href="/2018/12/12/关于git的一些操作/">关于git的一些操作</a>
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="在master分支下开分支"><a href="#在master分支下开分支" class="headerlink" title="在master分支下开分支"></a>在master分支下开分支</h3><ol>
+<li>先更新一下master分支</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建并切换该分支</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feature-xxx</span><br></pre></td></tr></table></figure>
+<h3 id="在自己的分支下开发"><a href="#在自己的分支下开发" class="headerlink" title="在自己的分支下开发"></a>在自己的分支下开发</h3><ol>
+<li>提交到本地仓库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"描述"</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>推送到远程仓库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin &amp;&amp; git merge origin/master</span><br><span class="line">git push origin feature-xxx</span><br></pre></td></tr></table></figure>
+<h3 id="推测试服"><a href="#推测试服" class="headerlink" title="推测试服"></a>推测试服</h3><ol>
+<li>切换到develop分支</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout develop</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>更新develop分支</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在develop分支下合并feature-xxx分支（public文件夹下的冲突就编译一下，src文件夹下的冲突就手动解决，一般不是自己改的冲突选择传入），推送develop分支</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git merge origin feature-xxx</span><br><span class="line">git push develop</span><br></pre></td></tr></table></figure>
+<h3 id="发合并请求"><a href="#发合并请求" class="headerlink" title="发合并请求"></a>发合并请求</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git status  <span class="comment"># 查看当前分支的状态，如果存在文件未提交则先提交，再切换分支</span></span><br><span class="line">git checkout feature-xxx </span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"描述"</span></span><br><span class="line">git fetch origin </span><br><span class="line">git merge origin/master</span><br><span class="line">node ./build.js feature-xxx -p   <span class="comment"># 生产编译</span></span><br><span class="line">git push origin feature-xxx</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/12/关于git的一些操作/" data-id="cjtayltkq000amgtznnizv2b6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
   </div>
+  
 </article>
-  
-  
-    </div></section>
+
+
   
 
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 </section>
         
